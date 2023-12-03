@@ -1,5 +1,4 @@
-// add event listener to start quiz button 
-  
+// add event listener to start quiz button
 const startButton = document.querySelector("#start");
 const questionSection = document.querySelector("#questions");
 const startScreen = document.querySelector("#start-screen");
@@ -12,38 +11,23 @@ const startQuiz = function(event) {
 
 startButton.addEventListener("click", startQuiz);
 
-// set first question 
-// for loop to roll through all objects in the questions array
-// set #question-title as questionTitle 
-// options as buttons
+// add questions array to questions div
+let questionAsk = document.querySelector("#question-title");
+let questionAnswer = document.querySelector("#choices"); 
 
-const questionAsk = document.querySelector("#question-title");
-const questionAnswer = document.querySelector("#choices"); 
+let questionAnswerList = document.createElement("ol");
+let listItems = document.createElement("li");
+questionAnswerList.appendChild(listItems);
 
-const questionAnswerList = document.createElement("ol"),
 
-/* for (var i = 0; i < questions.length; i++) { 
-    questionAsk = textContent.questionTitle;
-    questionAnswer = textContent.questionAnswerList;
-}
+const renderQuestions = function() {
+    for (let i = 0; i < questionsArray.length; i++) { 
+        questionAsk.textContent = questionsArray[i].questionTitle;
+        listItems = questionsArray[i].optionOne;
+        
+        questionAnswer.textContent = listItems;
+    };
+    
+}   
 
-// set timer (code from day one)
-var mainEl = document.getElementById("main");
-
-var secondsLeft = 10;
-
-function setTime() {
-  // Sets interval in variable
-  var timerInterval = setInterval(function() {
-    secondsLeft--;
-    timeEl.textContent = secondsLeft + " seconds left till colorsplosion.";
-
-    if(secondsLeft === 0) {
-      // Stops execution of action at set interval
-      clearInterval(timerInterval);
-      // Calls function to create and append image
-      sendMessage();
-    }
-
-  }, 1000);
-}
+    renderQuestions();
