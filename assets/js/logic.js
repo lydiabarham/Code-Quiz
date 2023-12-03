@@ -23,9 +23,11 @@ const renderQuestions = function (event) {
 
         // display options 
         for (let j = 0; j < questionsArray[i].options.length; j++) {
-            let listItems = document.createElement("li");
-            listItems.textContent = questionsArray[i].options[j];
-            questionAnswerList.appendChild(listItems);
+            let listButton = document.createElement("button");
+            listButton.textContent = questionsArray[i].options[j];
+            questionAnswerList.appendChild(listButton);
+            listButton.style.display = "block";
+            listButton.style.padding = "2px";
         }
 
         // append elements
