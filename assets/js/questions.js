@@ -1,19 +1,15 @@
 const questionsArray = [
-    questionOne = {
+    {
         questionTitle:"Which of these is a string?",
-        optionOne: "1",
-        optionTwo: "'1'",
-        optionThree: "true"
-    }, questionTwo = {
+        options: ["1", "'1'", "true"]
+    },
+    {
         questionTitle:"How would you display text using JavaScript?",
-        optionOne: ".textContent",
-        optionTwo: ".show",
-        optionThree: "displayText()"  
-    }, questionThree = {
+        options: [".textContent", ".show", "displayText()"]
+    },
+    {
         questionTitle:"Which is the correct way to prevent the default action?",
-        optionOne: "default.preventEvent();",
-        optionTwo: "prevent.eventDefault();",
-        optionThree: "event.preventDefault();"
+        options: ["default.preventEvent();", "prevent.eventDefault();", "event.preventDefault();"]
     }
   ];
   

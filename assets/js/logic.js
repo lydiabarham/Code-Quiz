@@ -11,23 +11,28 @@ const startQuiz = function(event) {
 
 startButton.addEventListener("click", startQuiz);
 
-// add questions array to questions div
-let questionAsk = document.querySelector("#question-title");
-let questionAnswer = document.querySelector("#choices"); 
-
-let questionAnswerList = document.createElement("ol");
-let listItems = document.createElement("li");
-questionAnswerList.appendChild(listItems);
-
-
-const renderQuestions = function() {
-    for (let i = 0; i < questionsArray.length; i++) { 
-        questionAsk.textContent = questionsArray[i].questionTitle;
-        listItems = questionsArray[i].optionOne;
+const renderQuestions = function (event) {
+    for (let i = 0; i < questionsArray.length; i++) {
         
-        questionAnswer.textContent = listItems;
-    };
-    
-}   
+        let questionContainer = document.createElement("div");
+        let questionAsk = document.createElement("h2");
+        let questionAnswerList = document.createElement("ol");
 
-    renderQuestions();
+        // display question title
+        questionAsk.textContent = questionsArray[i].questionTitle;
+
+        // display options 
+        for (let j = 0; j < questionsArray[i].options.length; j++) {
+            let listItems = document.createElement("li");
+            listItems.textContent = questionsArray[i].options[j];
+            questionAnswerList.appendChild(listItems);
+        }
+
+        // append elements
+        questionContainer.appendChild(questionAsk);
+        questionContainer.appendChild(questionAnswerList);
+        questionSection.appendChild(questionContainer);
+    };
+}
+
+renderQuestions();
