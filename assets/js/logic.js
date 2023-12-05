@@ -36,57 +36,88 @@ const showQuestion = function (index) {
     questionContainer.appendChild(questionAnswerList);
     questionSection.appendChild(questionContainer);
 
+    let optionButtons = questionSection.querySelectorAll('.optionBtn');
+    let correctAnswer = optionButtons[index];
+    let incorrectAnswer = optionButtons[index];
+
     // create if statement that determines if the answer is true or false
     if (currentQuestionIndex === 0) {
-        let optionButtons = questionSection.querySelectorAll('.optionBtn');
-        let correctAnswer = optionButtons[1];
-        correctAnswer.addEventListener("click", function() {
+        correctAnswer = optionButtons[1];
+        incorrectAnswer = optionButtons[0] && optionButtons[2];
+        correctAnswer.addEventListener("click", function () {
             nextQuestion();
-        });
-    } else {
-        secondsLeft -= 10;
-    }
+            timer.setAttribute("style", "color:#32CD32;");
+        })
+        incorrectAnswer.addEventListener("click", function () {
+            nextQuestion();
+            secondsLeft -= 10;
+            timer.setAttribute("style", "color:red;");
+        })
+    } else if (currentQuestionIndex === 1) {
+        correctAnswer = optionButtons[0];
+        incorrectAnswer = optionButtons[1] && optionButtons[2];
+        correctAnswer.addEventListener("click", function () {
+            nextQuestion();
+            timer.setAttribute("style", "color:#32CD32;");
+        })
+        incorrectAnswer.addEventListener("click", function () {
+            nextQuestion();
+            secondsLeft -= 10;
+            timer.setAttribute("style", "color:red;");
+        })
+    } else if (currentQuestionIndex === 2) {
+        correctAnswer = optionButtons[2];
+        incorrectAnswer = optionButtons[1] && optionButtons[0];
+        correctAnswer.addEventListener("click", function () {
+            nextQuestion();
+            timer.setAttribute("style", "color:#32CD32;");
+        })
+        incorrectAnswer.addEventListener("click", function () {
+            nextQuestion();
+            secondsLeft -= 10;
+            timer.setAttribute("style", "color:red;");
+        })
+    };
 };
 
-// create function to start quiz
-const startQuiz = function (event) {
-    event.preventDefault();
-    setTime();
-    questionSection.setAttribute("class", "show");
-    showQuestion(currentQuestionIndex);
-    startScreen.setAttribute("class", "hide");
-}
-
-// create funtion to move to next question
-const nextQuestion = function () {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questionsArray.length) {
+    // create function to start quiz
+    const startQuiz = function (event) {
+        event.preventDefault();
+        setTime();
+        questionSection.setAttribute("class", "show");
         showQuestion(currentQuestionIndex);
-    } else {
-        endScreen.setAttribute("class", "show");
-    }
-};
-
-// set countdown timer
-let secondsLeft = 60;
-
-const setTime = function() {
-  // Sets interval in variable
-  let timerInterval = setInterval(function() {
-    secondsLeft--;
-    timer.textContent = secondsLeft;
-
-    if(secondsLeft === 0) {
-      clearInterval(timerInterval);
-      endScreen.setAttribute("class", "show");
-      let endHeader = document.querySelector("#end-header");
-      endHeader.innerHTML = "You ran out of time."
+        startScreen.setAttribute("class", "hide");
     }
 
-  }, 1000);
-}
+    // create funtion to move to next question
+    const nextQuestion = function () {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questionsArray.length) {
+            showQuestion(currentQuestionIndex);
+        } else {
+            endScreen.setAttribute("class", "show");
+        }
+    };
 
-// add event listeners
-startButton.addEventListener("click", startQuiz);
-//questionSection.addEventListener("click", nextQuestion);
+    // set countdown timer
+    let secondsLeft = 60;
+
+    const setTime = function () {
+        // Sets interval in variable
+        let timerInterval = setInterval(function () {
+            secondsLeft--;
+            timer.textContent = secondsLeft;
+
+            if (secondsLeft === 0) {
+                clearInterval(timerInterval);
+                endScreen.setAttribute("class", "show");
+                let endHeader = document.querySelector("#end-header");
+                endHeader.innerHTML = "You ran out of time."
+            }
+
+        }, 1000);
+    }
+
+    // add event listeners
+    startButton.addEventListener("click", startQuiz);
 
