@@ -4,6 +4,10 @@ const questionSection = document.querySelector("#questions");
 const startScreen = document.querySelector("#start-screen");
 const endScreen = document.querySelector("#end-screen");
 const timer = document.querySelector("#time");
+const submitButton = document.querySelector("#submit");
+const highScoreScreen = document.querySelector(".highscores-wrapper");
+
+//highScoreScreen.setAttribute("class", "hide");
 
 // set running score in local storage
 let finalScore = document.querySelector("#final-score");
@@ -47,6 +51,7 @@ const showQuestion = function (index) {
     let incorrectAnswerTwo = optionButtons[index];
 
     // create if statement that determines if the answer is true or false
+    // set functions to control what happens dependent on the answer given
     if (currentQuestionIndex === 0) {
         correctAnswer = optionButtons[1];
         incorrectAnswer = optionButtons[0];
@@ -157,7 +162,15 @@ const showQuestion = function (index) {
         }, 1000);
     }
 
-    // add event listeners
+    // submit initials function
+    const submitScore = function() {
+        endScreen.setAttribute("class", "hide"); 
+        window.location.href = "highscores.html";
+    }
+
+    // add event listener to start quiz 
     startButton.addEventListener("click", startQuiz);
 
-    //finalScore.textContent = JSON.parse(localStorage.getItem(finalScore));
+
+    // add event listener to submit score to leaderboard
+    submitButton.addEventListener("click", submitScore)
