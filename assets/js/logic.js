@@ -5,6 +5,11 @@ const startScreen = document.querySelector("#start-screen");
 const endScreen = document.querySelector("#end-screen");
 const timer = document.querySelector("#time");
 
+// set running score in local storage
+let finalScore = document.querySelector("#final-score");
+let score = 0;
+finalScore.textContent = JSON.parse(localStorage.getItem(score));
+
 let currentQuestionIndex = 0;
 let questionContainer;
 
@@ -39,43 +44,76 @@ const showQuestion = function (index) {
     let optionButtons = questionSection.querySelectorAll('.optionBtn');
     let correctAnswer = optionButtons[index];
     let incorrectAnswer = optionButtons[index];
+    let incorrectAnswerTwo = optionButtons[index];
 
     // create if statement that determines if the answer is true or false
     if (currentQuestionIndex === 0) {
         correctAnswer = optionButtons[1];
-        incorrectAnswer = optionButtons[0] && optionButtons[2];
+        incorrectAnswer = optionButtons[0];
+        incorrectAnswerTwo = optionButtons[2];
         correctAnswer.addEventListener("click", function () {
             nextQuestion();
             timer.setAttribute("style", "color:#32CD32;");
+            localStorage.setItem("score", JSON.stringify(score++));
+            finalScore.textContent = score;
         })
         incorrectAnswer.addEventListener("click", function () {
             nextQuestion();
             secondsLeft -= 10;
             timer.setAttribute("style", "color:red;");
+            localStorage.setItem("score", JSON.stringify(score));
+            finalScore.textContent = score;
+        })
+        incorrectAnswerTwo.addEventListener("click", function () {
+            nextQuestion();
+            secondsLeft -= 10;
+            timer.setAttribute("style", "color:red;");
+            localStorage.setItem("score", JSON.stringify(score));
+            finalScore.textContent = score;
         })
     } else if (currentQuestionIndex === 1) {
         correctAnswer = optionButtons[0];
-        incorrectAnswer = optionButtons[1] && optionButtons[2];
+        incorrectAnswer = optionButtons[1];
+        incorrectAnswerTwo = optionButtons[2];
         correctAnswer.addEventListener("click", function () {
             nextQuestion();
             timer.setAttribute("style", "color:#32CD32;");
+            localStorage.setItem("score", JSON.stringify(score++));
+            finalScore.textContent = score;
         })
         incorrectAnswer.addEventListener("click", function () {
             nextQuestion();
             secondsLeft -= 10;
             timer.setAttribute("style", "color:red;");
+            localStorage.setItem("score", JSON.stringify(score));
+            finalScore.textContent = score;
+        })
+        incorrectAnswerTwo.addEventListener("click", function () {
+            nextQuestion();
+            secondsLeft -= 10;
+            timer.setAttribute("style", "color:red;");
+            localStorage.setItem("score", JSON.stringify(score));
+            finalScore.textContent = score;
         })
     } else if (currentQuestionIndex === 2) {
         correctAnswer = optionButtons[2];
-        incorrectAnswer = optionButtons[1] && optionButtons[0];
+        incorrectAnswer = optionButtons[0];
+        incorrectAnswerTwo = optionButtons[1];
         correctAnswer.addEventListener("click", function () {
             nextQuestion();
             timer.setAttribute("style", "color:#32CD32;");
+            localStorage.setItem("score", JSON.stringify(score++));
+            finalScore.textContent = score;
         })
         incorrectAnswer.addEventListener("click", function () {
             nextQuestion();
-            secondsLeft -= 10;
-            timer.setAttribute("style", "color:red;");
+            localStorage.setItem("score", JSON.stringify(score));
+            finalScore.textContent = score;
+        })
+        incorrectAnswerTwo.addEventListener("click", function () {
+            nextQuestion();
+            localStorage.setItem("score", JSON.stringify(score));
+            finalScore.textContent = score;
         })
     };
 };
@@ -95,6 +133,7 @@ const showQuestion = function (index) {
         if (currentQuestionIndex < questionsArray.length) {
             showQuestion(currentQuestionIndex);
         } else {
+            questionSection.setAttribute("class", "hide");
             endScreen.setAttribute("class", "show");
         }
     };
@@ -121,3 +160,4 @@ const showQuestion = function (index) {
     // add event listeners
     startButton.addEventListener("click", startQuiz);
 
+    //finalScore.textContent = JSON.parse(localStorage.getItem(finalScore));
