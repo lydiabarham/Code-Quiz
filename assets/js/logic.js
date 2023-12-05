@@ -5,9 +5,6 @@ const startScreen = document.querySelector("#start-screen");
 const endScreen = document.querySelector("#end-screen");
 const timer = document.querySelector("#time");
 const submitButton = document.querySelector("#submit");
-const highScoreScreen = document.querySelector(".highscores-wrapper");
-
-//highScoreScreen.setAttribute("class", "hide");
 
 // set running score in local storage
 let finalScore = document.querySelector("#final-score");
@@ -123,54 +120,64 @@ const showQuestion = function (index) {
     };
 };
 
-    // create function to start quiz
-    const startQuiz = function (event) {
-        event.preventDefault();
-        setTime();
-        questionSection.setAttribute("class", "show");
+// create function to start quiz
+const startQuiz = function (event) {
+    event.preventDefault();
+    setTime();
+    questionSection.setAttribute("class", "show");
+    showQuestion(currentQuestionIndex);
+    startScreen.setAttribute("class", "hide");
+}
+
+// create funtion to move to next question
+const nextQuestion = function () {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questionsArray.length) {
         showQuestion(currentQuestionIndex);
-        startScreen.setAttribute("class", "hide");
+    } else {
+        questionSection.setAttribute("class", "hide");
+        endScreen.setAttribute("class", "show");
     }
+};
 
-    // create funtion to move to next question
-    const nextQuestion = function () {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questionsArray.length) {
-            showQuestion(currentQuestionIndex);
-        } else {
-            questionSection.setAttribute("class", "hide");
+// set countdown timer
+let secondsLeft = 60;
+
+const setTime = function () {
+    // Sets interval in variable
+    let timerInterval = setInterval(function () {
+        secondsLeft--;
+        timer.textContent = secondsLeft;
+
+        if (secondsLeft === 0) {
+            clearInterval(timerInterval);
             endScreen.setAttribute("class", "show");
+            let endHeader = document.querySelector("#end-header");
+            endHeader.innerHTML = "You ran out of time."
         }
-    };
 
-    // set countdown timer
-    let secondsLeft = 60;
+    }, 1000);
+}
 
-    const setTime = function () {
-        // Sets interval in variable
-        let timerInterval = setInterval(function () {
-            secondsLeft--;
-            timer.textContent = secondsLeft;
+// save initials and score to local storage
+const saveScore = function () {
+    const initialsInput = document.getElementById("initials").value;
+    const userKey = initialsInput + "_" + new Date().getTime();
+    const currentScore = JSON.parse(localStorage.getItem(userKey)) || { initials: initialsInput, score: 0 };
+    currentScore.score = score;
+    localStorage.setItem(userKey, JSON.stringify(currentScore));
+}
 
-            if (secondsLeft === 0) {
-                clearInterval(timerInterval);
-                endScreen.setAttribute("class", "show");
-                let endHeader = document.querySelector("#end-header");
-                endHeader.innerHTML = "You ran out of time."
-            }
+// submit initials function
+const submitScore = function () {
+    endScreen.setAttribute("class", "hide");
+    window.location.href = "highscores.html";
+    saveScore();
+}
 
-        }, 1000);
-    }
+// add event listener to start quiz
+startButton.addEventListener("click", startQuiz);
 
-    // submit initials function
-    const submitScore = function() {
-        endScreen.setAttribute("class", "hide"); 
-        window.location.href = "highscores.html";
-    }
+// add event listener to submit score to leaderboard
+submitButton.addEventListener("click", submitScore);
 
-    // add event listener to start quiz 
-    startButton.addEventListener("click", startQuiz);
-
-
-    // add event listener to submit score to leaderboard
-    submitButton.addEventListener("click", submitScore)
